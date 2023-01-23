@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Ticket.scss";
-const Ticket = () => {
+const Ticket = ({ item }) => {
+  const [show, setShow] = useState(false);
   return (
-    <div className="ticket">
-      <h3>Min ticket</h3>
-      <p>gör detta sir if not get out</p>
-      <p>bob</p>
+    <div className="ticket" onClick={() => setShow(!show)}>
+      <h3 className="heading-m ">{item.title}</h3>
+      <p className="body-m">{item.descrption}</p>
+      <p className="body-m">{item.tasks.length} subtasks</p>
+
+      {show && (
+        <ul>
+          {item.tasks.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

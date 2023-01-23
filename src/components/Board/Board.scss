@@ -5,6 +5,12 @@
   flex: 1;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 
+  &-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   &-title {
     display: flex;
     gap: 12px;

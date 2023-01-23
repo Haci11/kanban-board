@@ -9,7 +9,14 @@ const Board = () => {
           <div className="board-title-icon"></div>
           <h4>Todo</h4>
         </div>
-        <Ticket />
+        <Ticket
+          item={{
+            id: "1",
+            title: "This is a ticket",
+            descrption: "this is a description",
+            tasks: ["hoppa 3 gånger", "Rasta hunden"],
+          }}
+        />
       </div>
       <div className="board-column">
         <div className="board-title">

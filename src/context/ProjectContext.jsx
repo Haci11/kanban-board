@@ -5,6 +5,7 @@ const ProjectContext = createContext({});
 export function useProject() {
   return useContext(ProjectContext);
 }
+
 const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState(projectsData);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -14,9 +15,28 @@ const ProjectProvider = ({ children }) => {
     setCurrentIndex(index);
   }
 
+  function addNewProject(title) {
+    if (!title) {
+      return;
+    }
+
+    const newProject = {
+      title: title,
+      id: projects.length + 1,
+      board: [
+        { name: "Todo", tickets: [] },
+        { name: "Doing", tickets: [] },
+        { name: "Done", tickets: [] },
+      ],
+    };
+    setProjects([...projects, newProject]);
+    setCurrentIndex(projects.length);
+  }
+
   const value = {
     currentProject: currentProject,
     changeBoard: changeBoard,
+    addNewProject: addNewProject,
     projects: projects,
   };
 

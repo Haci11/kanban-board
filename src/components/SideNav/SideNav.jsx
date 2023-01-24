@@ -4,6 +4,7 @@ import { useProject } from "../../context/ProjectContext";
 const SideNav = () => {
   const { projects, currentProject, changeBoard, addNewProject } = useProject();
   const [isOpen, setIsOpen] = useState(false);
+  const [text, setText] = useState("");
   return (
     <div className="sidenav">
       <p>ALL BOARDS (2)</p>
@@ -28,10 +29,16 @@ const SideNav = () => {
       </ul>
       {isOpen && (
         <div className="create-project">
-          <input type="text" />
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
           <button
             onClick={() => {
-              addNewProject("hej");
+              addNewProject(text);
+              setIsOpen(false);
+              setText("");
             }}>
             Create Project
           </button>

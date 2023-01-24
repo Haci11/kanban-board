@@ -6,10 +6,18 @@ export function useProject() {
   return useContext(ProjectContext);
 }
 const ProjectProvider = ({ children }) => {
-  const [project, setProject] = useState(projectsData);
+  const [projects, setProjects] = useState(projectsData);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const currentProject = projects[currentIndex];
+
+  function changeBoard(index) {
+    setCurrentIndex(index);
+  }
 
   const value = {
-    project: project,
+    currentProject: currentProject,
+    changeBoard: changeBoard,
+    projects: projects,
   };
 
   return (

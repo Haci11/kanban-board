@@ -1,0 +1,42 @@
+.modal {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: #00000066;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-card {
+    padding: 32px;
+    background-color: var(--bg-gray);
+    width: min(100%, 400px);
+    border-radius: 6px;
+  }
+
+  &-input-group {
+    margin-bottom: 24px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      display: block;
+      background-color: transparent;
+      padding: 8px 16px;
+      border: 1px solid var(--bg-lines);
+      border-radius: 6px;
+      outline: none;
+      color: var(--text);
+      resize: vertical;
+      max-height: 220px;
+      &:focus {
+        border-color: var(--primary);
+      }
+    }
+  }
+}

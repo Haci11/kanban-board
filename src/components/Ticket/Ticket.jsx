@@ -5,7 +5,7 @@ const Ticket = ({ item }) => {
   return (
     <div className="ticket" onClick={() => setShow(!show)}>
       <h3 className="heading-m ">{item.title}</h3>
-      <p className="body-m">{item.descrption}</p>
+      <p className="body-m">{item.description}</p>
       <p className="body-m">{item.tasks.length} subtasks</p>
 
       {show && (

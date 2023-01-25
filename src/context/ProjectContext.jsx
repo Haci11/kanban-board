@@ -33,11 +33,17 @@ const ProjectProvider = ({ children }) => {
     setCurrentIndex(projects.length);
   }
 
+  function addTicket(ticket) {
+    projects[currentIndex].board[0].tickets.push(ticket);
+    setProjects([...projects]);
+  }
+
   const value = {
-    currentProject: currentProject,
-    changeBoard: changeBoard,
-    addNewProject: addNewProject,
-    projects: projects,
+    addTicket,
+    currentProject,
+    changeBoard,
+    addNewProject,
+    projects,
   };
 
   return (

@@ -3,7 +3,7 @@ import "./Navbar.scss";
 
 import { useProject } from "../../context/ProjectContext";
 
-const Navbar = () => {
+const Navbar = ({ setShowTicket }) => {
   const { currentProject } = useProject();
   return (
     <nav className="navbar">
@@ -13,7 +13,7 @@ const Navbar = () => {
       <div className="navbar-heading">
         <h2>{currentProject.title}</h2>
       </div>
-      <button>Add new ticket</button>
+      <button onClick={() => setShowTicket(true)}>Add new ticket</button>
     </nav>
   );
 };

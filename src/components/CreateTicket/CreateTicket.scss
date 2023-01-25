@@ -39,4 +39,13 @@
       }
     }
   }
+  button {
+    background-color: var(--primary);
+    padding: 10px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+  }
 }

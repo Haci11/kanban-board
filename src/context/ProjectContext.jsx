@@ -1,53 +1,70 @@
-import React, { useState, useContext, createContext } from "react";
-import { projectsData } from "./project-data";
+import React, { useState, useContext } from "react";
+import { createContext } from "react";
+import { projectsData } from "./projects-data";
+
 const ProjectContext = createContext({});
 
 export function useProject() {
   return useContext(ProjectContext);
 }
 
-const ProjectProvider = ({ children }) => {
+const ProjectContextProvider = ({ children }) => {
   const [projects, setProjects] = useState(projectsData);
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentProject = projects[currentIndex];
 
-  function changeBoard(index) {
+  const addTicket = (ticket) => {
+    projects[currentIndex].board.stage1.items.push(ticket);
+    // make sure we rerender
+    setProjects([...projects]);
+  };
+
+  const changeBoard = (index) => {
     setCurrentIndex(index);
-  }
+  };
 
-  function addNewProject(title) {
-    if (!title) {
-      return;
-    }
+  const addNewProject = (title) => {
+    if (!title) return;
 
-    const newProject = {
+    const data = {
       title: title,
       id: projects.length + 1,
-      board: [
-        { name: "Todo", tickets: [] },
-        { name: "Doing", tickets: [] },
-        { name: "Done", tickets: [] },
-      ],
+      board: {
+        stage1: {
+          name: "Todo",
+          items: [],
+        },
+        stage2: {
+          name: "Doing",
+          items: [],
+        },
+        stage3: {
+          name: "Done",
+          items: [],
+        },
+      },
     };
-    setProjects([...projects, newProject]);
+    setProjects((prev) => [...prev, data]);
     setCurrentIndex(projects.length);
-  }
+  };
 
-  function addTicket(ticket) {
-    projects[currentIndex].board[0].tickets.push(ticket);
+  const changeCurrentBoard = (newData) => {
+    projects[currentIndex].board = newData;
     setProjects([...projects]);
-  }
+  };
 
   const value = {
-    addTicket,
-    currentProject,
     changeBoard,
-    addNewProject,
+    currentProject,
+    changeCurrentBoard,
     projects,
+    addTicket,
+    addNewProject,
   };
 
   return (
     <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
   );
 };
-export default ProjectProvider;
+
+export default ProjectContextProvider;

@@ -1,20 +1,39 @@
 import React from "react";
 import "./Navbar.scss";
-
+import IconLogo from "../../assets/icon/IconLogo";
 import { useProject } from "../../context/ProjectContext";
+import uplogo from "../../assets/icon-chevron-up.svg";
+import downlogo from "../../assets/icon-chevron-down.svg";
 
-const Navbar = ({ setShowTicket }) => {
+const Navbar = ({ setShowAddTicket, setShowDropdown, showDropdown }) => {
   const { currentProject } = useProject();
+
   return (
-    <nav className="navbar">
-      <div className="navbar-logo-container">
+    <div className="navbar">
+      <div className="logo-container">
+        <IconLogo />
         <h1>Kanban</h1>
       </div>
-      <div className="navbar-heading">
+      <section className="nav-heading-section">
+        <IconLogo />
         <h2>{currentProject.title}</h2>
-      </div>
-      <button onClick={() => setShowTicket(true)}>Add new ticket</button>
-    </nav>
+        <button
+          className="arrow-btn"
+          onClick={() => {
+            setShowDropdown((prev) => !prev);
+          }}>
+          <img src={showDropdown ? uplogo : downlogo} alt="" />
+        </button>
+      </section>
+      <section className="nav-btn-section">
+        <button
+          onClick={() => {
+            setShowAddTicket((prev) => !prev);
+          }}>
+          Add New Task
+        </button>
+      </section>
+    </div>
   );
 };
 

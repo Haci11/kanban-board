@@ -1,28 +1,60 @@
 import React, { useState } from "react";
-import "./CreateTicket.scss";
+import "./Modal.scss";
+import crossIcon from "../../assets/icon-cross.svg";
 import { useProject } from "../../context/ProjectContext";
 import { v4 as uuidv4 } from "uuid";
-const CreateTicket = ({ setShowTicket }) => {
+
+export default function CreateTicket({ setIsOpen }) {
   const { addTicket } = useProject();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [tasks, setTasks] = useState([""]);
 
+  function validate() {
+    let isValid = true;
+    if (title == "" && description == "") {
+      isValid = false;
+    }
+    return isValid;
+  }
+
+  function createTicket() {
+    if (validate()) {
+      const ticket = {
+        title: title,
+        id: uuidv4(),
+        description: description,
+        tasks: tasks[0] == "" ? [] : tasks,
+      };
+      addTicket(ticket);
+      console.log(ticket);
+      setIsOpen((prev) => !prev);
+    }
+  }
+
   return (
     <div className="modal">
       <div className="modal-card">
-        <h3 className="heading-l">Add new Task</h3>
-        <button onClick={() => setShowTicket(false)}>Close model</button>
+        <div
+          className="close-btn"
+          onClick={() => {
+            setIsOpen((prev) => !prev);
+          }}>
+          <img src={crossIcon} alt="" />
+        </div>
+        <h3 className="heading-l">Add New Task</h3>
         <div className="modal-input-group">
           <label htmlFor="title" className="body-m">
             Title
           </label>
           <input
+            className="body-l"
+            placeholder="e.g Take coffee break"
+            type="text"
+            name="title"
+            id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            id="title"
-            type="text"
-            placeholder="e.g Bob"
           />
         </div>
 
@@ -31,52 +63,44 @@ const CreateTicket = ({ setShowTicket }) => {
             Description
           </label>
           <textarea
+            className="body-l"
+            placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
+            name="description"
+            id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            id="description"
-            type="text"
-            placeholder="e.g Bob"
           />
         </div>
 
         <div className="modal-input-group">
-          <label htmlFor="subtasks" className="body-m">
-            Subtasks
-          </label>
+          <label className="body-m">Subtasks</label>
           {tasks.map((task, index) => (
-            <input
-              id="subtasks"
-              value={task}
-              type="text"
-              placeholder="e.g Bob"
-              onChange={(e) => {
-                tasks[index] = e.target.value;
-                setTasks([...tasks]);
-              }}
-            />
+            <div key={index} className="modal-input-row">
+              <input
+                className="body-l"
+                placeholder="e.g Make break"
+                type="text"
+                name="subtasks"
+                value={task}
+                onChange={(e) => {
+                  tasks[index] = e.target.value;
+                  setTasks([...tasks]);
+                }}
+              />
+            </div>
           ))}
-          <button
-            onClick={() => {
-              setTasks(tasks.concat(""));
-            }}>
-            + Add new task
-          </button>
+          <div className="btn-container">
+            <button
+              className="btn btn-small btn-white btn-wide"
+              onClick={() => {
+                setTasks(tasks.concat(""));
+              }}>
+              + Add New Task
+            </button>
+            <button onClick={createTicket}>Create Task</button>
+          </div>
         </div>
-
-        <button
-          onClick={() =>
-            addTicket({
-              id: uuidv4(),
-              title,
-              description,
-              tasks,
-            })
-          }>
-          Create ticket
-        </button>
       </div>
     </div>
   );
-};
-
-export default CreateTicket;
+}
